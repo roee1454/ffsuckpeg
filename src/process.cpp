@@ -51,8 +51,9 @@ void display_frame(cv::VideoCapture &cap, int frame_to_display) {
     // If the frame is empty, show an error message
     if (!frame.empty()) {
         cout << "Displayed frame: " << frame_to_display << endl;
+        cout << "Press S to get it as an image" << endl;
         cv::imshow("Video Frame", frame); // Show the specified frame
-        cv::waitKey(0); // Wait indefinitely until a key is pressed
+        cv::waitKey(0); // Wait for any key press to quit
     } else {
         cout << "The specified frame is empty or does not exist." << endl; // Error message
     }

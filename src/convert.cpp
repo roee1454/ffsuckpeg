@@ -22,8 +22,8 @@ string get_output_format(int argc, char **argv)
     return output_format; // If there is a '--convert' argument and there is a format, get that format, otherwise, return an empty string
 }
 
-cv::VideoWriter create_video_writer(cv::VideoCapture &cap, const string &output_format) {
-    string output_file = "output_video." + output_format;
+cv::VideoWriter create_video_writer(cv::VideoCapture &cap, const std::string &output_format) {
+    std::string output_file = "output_video." + output_format;
 
     // Determine the proper fourcc code based on the output format
     int fourcc;
@@ -31,8 +31,14 @@ cv::VideoWriter create_video_writer(cv::VideoCapture &cap, const string &output_
         fourcc = cv::VideoWriter::fourcc('M', 'J', 'P', 'G'); // MJPG for .avi
     } else if (output_format == "mp4") {
         fourcc = cv::VideoWriter::fourcc('M', 'P', '4', 'V'); // MP4V for .mp4
+    } else if (output_format == "mov") {
+        fourcc = cv::VideoWriter::fourcc('m', 'p', '4', 'v'); // MP4V for .mov
+    } else if (output_format == "mkv") {
+        fourcc = cv::VideoWriter::fourcc('X', '2', '6', '4'); // H264 for .mkv
+    } else if (output_format == "webm") {
+        fourcc = cv::VideoWriter::fourcc('V', 'P', '8', '0'); // VP8 for .webm
     } else {
-        cerr << "Unsupported format: " << output_format << endl;
+        std::cerr << "Unsupported format: " << output_format << std::endl;
         return cv::VideoWriter(); // Return empty writer in case of unsupported format
     }
 
@@ -46,7 +52,7 @@ cv::VideoWriter create_video_writer(cv::VideoCapture &cap, const string &output_
 
     // Check if the writer was successfully opened
     if (!writer.isOpened()) {
-        cerr << "Error: Could not open the output video file: " << output_file << " for writing." << endl;
+        std::cerr << "Error: Could not open the output video file: " << output_file << " for writing." << std::endl;
     }
 
     return writer; // Return the VideoWriter

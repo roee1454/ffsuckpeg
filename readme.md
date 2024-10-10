@@ -82,7 +82,7 @@ ffsuckpeg <video_path> [options]
 - Convert video to another format (MP4, AVI):
 
   ```bash
-  ffsuckpeg input_video.mp4 --convert mp4
+  ffsuckpeg input_video.mp4 --convert avi
   ```
 
 ### Example
@@ -98,3 +98,10 @@ This command rotates the video by 90 degrees, converts it to grayscale, and appl
 - The video processing is done frame-by-frame.
 - You can stop the video processing by pressing the `q` key during the playback.
 - For video conversion, ensure that the proper codec is supported in OpenCV.
+- Currently supported video formats for conversion:
+  -------------------------------------------------
+- .mp4
+- .avi
+- .mov
+- .webm
+- .mkv
