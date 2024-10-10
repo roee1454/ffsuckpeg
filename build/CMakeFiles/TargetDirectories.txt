@@ -1,0 +1,3 @@
+C:/Users/roee1/Desktop/Development/All C++ Projects/opencv/build/CMakeFiles/ffsuckpeg.dir
+C:/Users/roee1/Desktop/Development/All C++ Projects/opencv/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/roee1/Desktop/Development/All C++ Projects/opencv/build/CMakeFiles/ZERO_CHECK.dir
