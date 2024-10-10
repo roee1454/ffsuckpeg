@@ -121,30 +121,55 @@ void process_video(cv::VideoCapture &cap, int argc, char **argv, int &total_fram
 
 
     cv::Mat video_frame; // Creating an initial empty frame for video processing
-    int current_frame = 0;
-    while (true) {
-        cap >> video_frame; // Getting each video frame from the cap variable
+    int current_frame = 0; // Initialzing a current frame index counter
 
-        // If the frame is empty, assume the video is finished
-        if (video_frame.empty() || current_frame > total_frames) {
-            cout << "Video is finished" << endl;
-            break; // Exit the loop
+    if (output_format.empty()) {
+        while (true) {
+            cap >> video_frame; // Getting each video frame from the cap variable
+
+            // If the frame is empty, assume the video is finished
+            if (video_frame.empty() || current_frame > total_frames) {
+                cout << "Video is finished" << endl;
+                break; // Exit the loop
+            }
+
+            if (options.count("--to") && current_frame > *options.at("--to")) {
+                cout << "Video is finished at trim point" << endl;
+                break; // Exit the loop
+            }
+
+            // Process the frame based on command-line options
+            process_frame(video_frame, options);
+
+            cv::imshow("Video", video_frame); // Show updated frame
+            // if the user is pressing the letter 'q' finish the while loop and quit the processing operation!
+            if (cv::waitKey(30) == 'q') {
+                cout << "Quit key was pressed." << endl; // Message when quitting
+                break; // Exit the loop
+            }
+            current_frame++; // Counting to the next frame
         }
+    } else {
+        cv::VideoWriter writer = create_video_writer(cap, output_format); // Initializing a video writer according to the output format,
+        while (true) {
+            cap >> video_frame; // Getting each video frame from the cap variable
 
-        if (options.count("--to") && current_frame > *options.at("--to")) {
-            cout << "Video is finished at trim point" << endl;
-            break; // Exit the loop
+            // If the frame is empty, assume the video is finished
+            if (video_frame.empty() || current_frame > total_frames) {
+                cout << "Conversion is finished" << endl;
+                break; // Exit the loop
+            }
+
+            if (options.count("--to") && current_frame > *options.at("--to")) {
+                cout << "Video is finished at trim point" << endl;
+                break; // Exit the loop
+            }
+
+            process_frame(video_frame, options); // Processing the video frame according to client input
+
+            writer.write(video_frame); // Writing the frame buffer into the output_video file
+
+            current_frame++; // Counting to the next frame
         }
-
-        // Process the frame based on command-line options
-        process_frame(video_frame, options);
-
-        cv::imshow("Video", video_frame); // Show updated frame
-        // if the user is pressing the letter 'q' finish the while loop and quit the processing operation!
-        if (cv::waitKey(30) == 'q') {
-            cout << "Quit key was pressed." << endl; // Message when quitting
-            break; // Exit the loop
-        }
-        current_frame++;
     }
 }
